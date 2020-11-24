@@ -26,9 +26,6 @@ inspecode:
       # found 2 issues ... (version 2.16.1) on SaaS
       # found 1 issue  ... (version 2.14.0) on Enterprise --> Aborted (in after day)
 
-  phplint:    # support ended ?
-    thresholds: { num-issues: 132 }
-
   phpmd:
     thresholds: { num-issues: 28 }
       # found 28 issues ... (version 2.8.0) on SaaS
