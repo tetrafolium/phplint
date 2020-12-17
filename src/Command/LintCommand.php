@@ -147,7 +147,7 @@ class LintCommand extends Command
      *
      * @throws \LogicException When this abstract method is not implemented
      *
-     * @return null|int null or 0 if everything went fine, or an error code
+     * @return int|null null or 0 if everything went fine, or an error code
      *
      * @see setCode()
      *
@@ -228,9 +228,6 @@ class LintCommand extends Command
 
     /**
      * @param string $path
-     * @param array  $errors
-     * @param array  $options
-     * @param array  $context
      */
     protected function dumpResult($path, array $errors, array $options, array $context = [])
     {
@@ -346,7 +343,7 @@ class LintCommand extends Command
      */
     public function getHighlightedCodeSnippet($filePath, $lineNumber, $linesBefore = 3, $linesAfter = 3)
     {
-        if (!class_exists('\JakubOnderka\PhpConsoleHighlighter\Highlighter') 
+        if (!class_exists('\JakubOnderka\PhpConsoleHighlighter\Highlighter')
             || !class_exists('\JakubOnderka\PhpConsoleColor\ConsoleColor')
         ) {
             return $this->getCodeSnippet($filePath, $lineNumber, $linesBefore, $linesAfter);

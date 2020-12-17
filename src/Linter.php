@@ -60,8 +60,6 @@ class Linter
      * Constructor.
      *
      * @param string|array $path
-     * @param array        $excludes
-     * @param array        $extensions
      */
     public function __construct($path, array $excludes = [], array $extensions = ['php'])
     {
@@ -111,8 +109,8 @@ class Linter
 
             foreach ($running as $filename => $item) {
                 /**
- * @var Lint $lint 
-*/
+                 * @var Lint $lint
+                 */
                 $lint = $item['process'];
                 if ($lint->isRunning()) {
                     continue;
