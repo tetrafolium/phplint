@@ -196,10 +196,12 @@ class LintCommand extends Command
         $code = 0;
         $errCount = count($errors);
 
-        $output->writeln(sprintf(
-            "\n\nTime: <info>%s</info>\tMemory: <info>%s</info>\tCache: <info>%s</info>\n",
-            $timeUsage, $memUsage, $usingCache
-        ));
+        $output->writeln(
+            sprintf(
+                "\n\nTime: <info>%s</info>\tMemory: <info>%s</info>\tCache: <info>%s</info>\n",
+                $timeUsage, $memUsage, $usingCache
+            )
+        );
 
         if ($errCount > 0) {
             $output->writeln('<error>FAILURES!</error>');
@@ -211,12 +213,14 @@ class LintCommand extends Command
         }
 
         if (!empty($options['json'])) {
-            $this->dumpResult((string) $options['json'], $errors, $options, [
+            $this->dumpResult(
+                (string) $options['json'], $errors, $options, [
                 'time_usage' => $timeUsage,
                 'memory_usage' => $memUsage,
                 'using_cache' => 'Yes' == $usingCache,
                 'files_count' => $fileCount,
-            ]);
+                ]
+            );
         }
 
         return $code;
@@ -256,24 +260,26 @@ class LintCommand extends Command
         $verbosity = $output->getVerbosity();
         $displayProgress = !$input->getOption('no-progress');
 
-        $displayProgress && $linter->setProcessCallback(function ($status, SplFileInfo $file) use ($output, $verbosity, $fileCount, $maxColumns) {
-            static $i = 1;
+        $displayProgress && $linter->setProcessCallback(
+            function ($status, SplFileInfo $file) use ($output, $verbosity, $fileCount, $maxColumns) {
+                static $i = 1;
 
-            $percent = floor(($i / $fileCount) * 100);
-            $process = str_pad(" {$i} / {$fileCount} ({$percent}%)", 18, ' ', STR_PAD_LEFT);
+                $percent = floor(($i / $fileCount) * 100);
+                $process = str_pad(" {$i} / {$fileCount} ({$percent}%)", 18, ' ', STR_PAD_LEFT);
 
-            if ($verbosity >= OutputInterface::VERBOSITY_VERBOSE) {
-                $filename = str_pad(" {$i}: ".$file->getRelativePathname(), $maxColumns - 10, ' ', \STR_PAD_RIGHT);
-                $status = \str_pad(('ok' === $status ? '<info>OK</info>' : '<error>Error</error>'), 20, ' ', \STR_PAD_RIGHT);
-                $output->writeln(\sprintf("%s\t%s\t%s", $filename, $status, $process));
-            } else {
-                if ($i && 0 === $i % $maxColumns) {
-                    $output->writeln($process);
+                if ($verbosity >= OutputInterface::VERBOSITY_VERBOSE) {
+                    $filename = str_pad(" {$i}: ".$file->getRelativePathname(), $maxColumns - 10, ' ', \STR_PAD_RIGHT);
+                    $status = \str_pad(('ok' === $status ? '<info>OK</info>' : '<error>Error</error>'), 20, ' ', \STR_PAD_RIGHT);
+                    $output->writeln(\sprintf("%s\t%s\t%s", $filename, $status, $process));
+                } else {
+                    if ($i && 0 === $i % $maxColumns) {
+                        $output->writeln($process);
+                    }
+                    $output->write('ok' === $status ? '<info>.</info>' : '<error>E</error>');
                 }
-                $output->write('ok' === $status ? '<info>.</info>' : '<error>E</error>');
+                ++$i;
             }
-            ++$i;
-        });
+        );
 
         $displayProgress || $output->write('<info>Checking...</info>');
 
@@ -340,9 +346,8 @@ class LintCommand extends Command
      */
     public function getHighlightedCodeSnippet($filePath, $lineNumber, $linesBefore = 3, $linesAfter = 3)
     {
-        if (
-            !class_exists('\JakubOnderka\PhpConsoleHighlighter\Highlighter') ||
-            !class_exists('\JakubOnderka\PhpConsoleColor\ConsoleColor')
+        if (!class_exists('\JakubOnderka\PhpConsoleHighlighter\Highlighter') 
+            || !class_exists('\JakubOnderka\PhpConsoleColor\ConsoleColor')
         ) {
             return $this->getCodeSnippet($filePath, $lineNumber, $linesBefore, $linesAfter);
         }

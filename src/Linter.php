@@ -110,7 +110,9 @@ class Linter
             }
 
             foreach ($running as $filename => $item) {
-                /** @var Lint $lint */
+                /**
+ * @var Lint $lint 
+*/
                 $lint = $item['process'];
                 if ($lint->isRunning()) {
                     continue;
